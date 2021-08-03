@@ -17,12 +17,7 @@
                         <input type="file" name="file" id="">
                         <span class="help-block text-danger">{{$errors->first('file')}}</span>
                     </div>
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <textarea name="title" id="caption" class="form-control"></textarea>
-                        <span class="help-block text-danger">{{$errors->first('title')}}</span>
-
-                    </div>
+                     
                     <button class="btn btn-primary">Upload</button>
                 </form>                    
             </div>

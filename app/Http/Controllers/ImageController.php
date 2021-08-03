@@ -6,52 +6,45 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreImage;
+use App\Traits\fileTrait;
 use Exception;
 
 class ImageController extends Controller
 {
-    private $image;
-    public function __construct(Image $image)
-    {
-        $this->image = $image;
-    }
-
+    use fileTrait;
+     
+     
     public function getImages()
     {
 
-        $images = Storage::disk('s3')->files('images/originals');
+        $images = Storage::disk('s3')->files('/');
         $array =[];
         foreach ($images as $key => $img) {
             $array[$key] =[
-                'name' => substr($img, strlen('images/originals/')),
-                'url' =>  Storage::disk('s3')->url($img),
-                'path' =>   $img,
+                'name' => $img ,
+                'url' =>  $this->fileUrl($img),
             ];
         }
 
-        return view('images')->with(['images'=> auth()->user()->images ,'s3array' => $array]);
+        return view('images')->with(['s3array' => $array]);
     }
 
-    public function postUpload(StoreImage $request)
+    public function postUpload(Request $request)
     {
         $request->merge([
             'size' => $request->file->getSize(),
             'name' => $request->file->getClientOriginalName(),
         ]);
+        
 
-        $img= Image::where('name',$request->name)->where('size',$request->size)->first();
-        if(!$img){
-            $path = Storage::disk('s3')->put('images/originals', $request->file);
-            $request->merge(['path' => $path]);
-        }else {
-            $request->merge(['path' => $img->path]);
+        if(! $this->fileCheck($request->file)){
+            $path = Storage::disk('s3')->putFileAs('/', $request->file, $request->name, 'public');
+            return back()->with('success', 'Image Successfully Saved');
         }
 
-        
-        $this->image->create($request->only('path', 'title', 'size' , 'name'));
-        return back()->with('success', 'Image Successfully Saved');
+        return back()->with('error', 'Image exists before');
     }
-
+  
     public function find()
     {
         return view('find');
@@ -62,17 +55,16 @@ class ImageController extends Controller
     {
         $field = $request->title;
 
-        $img = Image::where('name', $field)->orWhere('title', $field)->first();
-        if (!$img) {
+        if (!$this->fileCheck($field)) {
             return back()->with('error', 'Image Can\'t be found');
         }
 
         try {
-            $file_url = $img->path;
-            $file_name  = $img->name;; //"VoteMix-Event-Entry-Ticket.pdf";
+            $file_url = $field;
+            $file_name  = $field; //"VoteMix-Event-Entry-Ticket.pdf";
 
-            $mime = Storage::disk('s3')->getDriver()->getMimetype($file_url);
-            $size = Storage::disk('s3')->getDriver()->getSize($file_url);
+            $mime = $this->getMime($file_url);
+            $size = $this->getSize($file_url);
 
             $response =  [
                 'Content-Type' => $mime,
@@ -102,37 +94,18 @@ class ImageController extends Controller
 
     public function deleteFile(Request $request)
     {
+
         $field = $request->title;
 
-        $img = Image::where('name', $field)->orWhere('title', $field)->first();
-        if (!$img) {
+        if (!$this->fileCheck($field)) {
             return back()->with('error', 'Image Can\'t be found');
         }
-
-        $path = $img->path;
-
-        $img->delete();
-
-
-        if(Storage::disk('s3')->exists($path) && Image::where('path',$path)->count() == 0) {
-            Storage::disk('s3')->delete($path);
-        }
-
+        
+        Storage::disk('s3')->delete($field);
 
 
         return back()->with('success', 'Image Deleted Successfully ');
     }
 
-    public function deleteByPath(Request $request)
-    {
-        $path = $request->path;
-        
-        if (Storage::disk('s3')->exists($path) && Image::where('path', $path)->count() == 0) {
-            Storage::disk('s3')->delete($path);
-            return back()->with('success', 'Image Deleted Successfully ');
-        }
-
-        return back()->with('error', 'Image should still be exists Cus Of Dependencies');
-
-    } 
+     
 }

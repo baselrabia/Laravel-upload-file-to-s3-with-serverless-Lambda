@@ -5,37 +5,7 @@
             @include('layouts.components.msg')
 
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">All Images</div>
-                <div class="card-body">
-                    <table class="table table-bordered">
-                        <tr>
-                                                        <th>#</th>
-
-                            <th>Image</th>
-                            <th>Caption</th>
-                            <th>Image Name</th>
-                            <th>Size</th>
-                            <th>Uploaded</th>
-                        </tr>
-                        @foreach ($images as $image)
-                            <tr>
-
-                            <td>{{ $image->id }}</td>
-                            <td><img width="100px" src="{{$image->url}}"></td>
-                            <td>{{$image->title}}</td>
-                            <td>{{$image->name}}</td>
-                            <td>{{$image->size_in_kb}} KB</td>
-                            <td>{{$image->uploaded_time}}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -56,10 +26,10 @@
                             <td><img width="100px" src="{{$image['url']}}"></td>
                              <td>{{$image['name']}}</td>
                              <td>
-                                 <form action="{{ route('deleteByPath') }}" enctype="multipart/form-data" method="post">
+                                 <form action="{{ route('deleteFile') }}" enctype="multipart/form-data" method="post">
                                     @csrf
                                     
-                                     <input type="hidden" name="path" value="{{$image['path']}}">
+                                     <input type="hidden" name="title" value="{{$image['name']}}">
 
                                     <button class="btn btn-danger">Delete</button>
                                 </form>
