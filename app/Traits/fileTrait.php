@@ -12,7 +12,8 @@ trait fileTrait
     
     public function fileCheck($file,$client = false)
     {
-        $path = ($client) ?  "images/" . $file->getClientOriginalName()  : "images/" . $file;
+        $new = is_array($file) ? $file['name'] : $file->getClientOriginalName();
+        $path = ($client) ?  "images/" . $new   : "images/" . $file;
          return Storage::disk('s3')->exists($path);
     }
 

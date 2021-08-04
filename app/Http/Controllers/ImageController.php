@@ -48,14 +48,15 @@ class ImageController extends Controller
 
     public function postUpload(Request $request)
     {
-        dd($request->all());
-        $request->merge([
-            'size' => $request->file->getSize(),
-            'name' => $request->file->getClientOriginalName(),
+        // dd($request->all());
+       
+        $request->merge([  
+            'name' => is_array($request->file) ? $request->file['name'] : $request->file->getClientOriginalName(),
         ]);
-
+ 
 
         if (!$this->fileCheck($request->file,true)) {
+        
             $path = Storage::disk('s3')->putFileAs('/images', $request->file, $request->name, 'public');
             return back()->with('success', 'Image Successfully Saved');
         }
