@@ -25,7 +25,7 @@ Route::get('/images', 'App\Http\Controllers\ImageController@getImages')->name('i
 Route::get('/find', 'App\Http\Controllers\ImageController@find')->name('Find');
 Route::get('/delete', 'App\Http\Controllers\ImageController@delete')->name('delete');
 
-Route::post('/findFile', 'App\Http\Controllers\ImageController@findFile')->name('findFile');
+Route::post('/find', 'App\Http\Controllers\ImageController@findFile')->name('findFile');
 Route::post('/deleteFile', 'App\Http\Controllers\ImageController@deleteFile')->name('deleteFile');
  
 Route::post('/upload', 'App\Http\Controllers\ImageController@postUpload')->name('uploadfile');

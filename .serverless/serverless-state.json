@@ -9,6 +9,7 @@
       "region": "us-east-2",
       "stage": "dev",
       "runtime": "provided.al2",
+      "useDotenv": true,
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -179,7 +180,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/UploadFile/dev/1627911309542-2021-08-02T13:35:09.542Z/UploadFile.zip"
+                "S3Key": "serverless/UploadFile/dev/1628045421997-2021-08-04T02:50:21.997Z/UploadFile.zip"
               },
               "Handler": "public/index.php",
               "Runtime": "provided.al2",
@@ -207,7 +208,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/UploadFile/dev/1627911309542-2021-08-02T13:35:09.542Z/UploadFile.zip"
+                "S3Key": "serverless/UploadFile/dev/1628045421997-2021-08-04T02:50:21.997Z/UploadFile.zip"
               },
               "Handler": "artisan",
               "Runtime": "provided.al2",
@@ -229,24 +230,24 @@
               "ArtisanLogGroup"
             ]
           },
-          "WebLambdaVersionwnSdxhQzNVUCTRPcD7IHHZp4g5eqvPEIrNBAtdDDw": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "WebLambdaFunction"
-              },
-              "CodeSha256": "9DhaH1Gcz79Jgd/taI/10StTNwL8csKjEOSuWv70nrM="
-            }
-          },
-          "ArtisanLambdaVersionMWdXwt2CwNTxS7coqEkccE9gwdG7D2yR4Wm3PFY": {
+          "ArtisanLambdaVersionf8Tjf8OVqKG47SM7w5dMnEwDf1GpuI9frzsHdR0GDE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ArtisanLambdaFunction"
               },
-              "CodeSha256": "9DhaH1Gcz79Jgd/taI/10StTNwL8csKjEOSuWv70nrM="
+              "CodeSha256": "m34yIvPeWIPDIMoUp5T71hlLZHA9EhTbAt7iSwmmnZA="
+            }
+          },
+          "WebLambdaVersionvsDc7ez8SjyjlRL3nth6U6ghTpRas5PTMpsD0X7m3is": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "WebLambdaFunction"
+              },
+              "CodeSha256": "m34yIvPeWIPDIMoUp5T71hlLZHA9EhTbAt7iSwmmnZA="
             }
           },
           "HttpApi": {
@@ -351,22 +352,22 @@
               "Name": "sls-UploadFile-dev-ServerlessDeploymentBucketName"
             }
           },
-          "WebLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "WebLambdaVersionwnSdxhQzNVUCTRPcD7IHHZp4g5eqvPEIrNBAtdDDw"
-            },
-            "Export": {
-              "Name": "sls-UploadFile-dev-WebLambdaFunctionQualifiedArn"
-            }
-          },
           "ArtisanLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ArtisanLambdaVersionMWdXwt2CwNTxS7coqEkccE9gwdG7D2yR4Wm3PFY"
+              "Ref": "ArtisanLambdaVersionf8Tjf8OVqKG47SM7w5dMnEwDf1GpuI9frzsHdR0GDE"
             },
             "Export": {
               "Name": "sls-UploadFile-dev-ArtisanLambdaFunctionQualifiedArn"
+            }
+          },
+          "WebLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "WebLambdaVersionvsDc7ez8SjyjlRL3nth6U6ghTpRas5PTMpsD0X7m3is"
+            },
+            "Export": {
+              "Name": "sls-UploadFile-dev-WebLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -514,7 +515,7 @@
         "memory": 1024,
         "runtime": "provided.al2",
         "vpc": {},
-        "versionLogicalId": "WebLambdaVersionwnSdxhQzNVUCTRPcD7IHHZp4g5eqvPEIrNBAtdDDw"
+        "versionLogicalId": "WebLambdaVersionvsDc7ez8SjyjlRL3nth6U6ghTpRas5PTMpsD0X7m3is"
       },
       "artisan": {
         "handler": "artisan",
@@ -528,7 +529,7 @@
         "memory": 1024,
         "runtime": "provided.al2",
         "vpc": {},
-        "versionLogicalId": "ArtisanLambdaVersionMWdXwt2CwNTxS7coqEkccE9gwdG7D2yR4Wm3PFY"
+        "versionLogicalId": "ArtisanLambdaVersionf8Tjf8OVqKG47SM7w5dMnEwDf1GpuI9frzsHdR0GDE"
       }
     },
     "configValidationMode": "warn",
@@ -549,7 +550,7 @@
           "tests/**"
         ],
         "artifact": "D:\\xampp\\htdocs\\php\\@tests\\UploadFileS3\\.serverless\\UploadFile.zip",
-        "artifactDirectoryName": "serverless/UploadFile/dev/1627911309542-2021-08-02T13:35:09.542Z"
+        "artifactDirectoryName": "serverless/UploadFile/dev/1628045421997-2021-08-04T02:50:21.997Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -563,7 +564,7 @@
     "artifact": "D:\\xampp\\htdocs\\php\\@tests\\UploadFileS3\\.serverless\\UploadFile.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/UploadFile/dev/1627911309542-2021-08-02T13:35:09.542Z",
+    "artifactDirectoryName": "serverless/UploadFile/dev/1628045421997-2021-08-04T02:50:21.997Z",
     "artifact": "UploadFile.zip"
   }
 }

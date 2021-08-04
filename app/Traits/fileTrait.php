@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Storage;
 trait fileTrait
 {
     
-    public function fileCheck($file)
+    public function fileCheck($file,$client = false)
     {
-        return Storage::disk('s3')->has($file);
+        $path = ($client) ?  "images/" . $file->getClientOriginalName()  : "images/" . $file;
+         return Storage::disk('s3')->exists($path);
     }
 
     public function fileUrl($file)
@@ -22,12 +23,12 @@ trait fileTrait
 
     public function getMime($file)
     {
-        return Storage::disk('s3')->getDriver()->getMimetype($file);
+         return Storage::disk('s3')->getDriver()->getMimetype($file);
     }
 
     public function getSize($file)
     {
-        return Storage::disk('s3')->getDriver()->getSize($file);
+         return Storage::disk('s3')->getDriver()->getSize($file);
     }
 
 

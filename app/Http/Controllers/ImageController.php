@@ -12,17 +12,34 @@ use Exception;
 class ImageController extends Controller
 {
     use fileTrait;
-     
-     
+
+
     public function getImages()
     {
 
-        $images = Storage::disk('s3')->files('/');
-        $array =[];
+        $images = Storage::disk('s3')->files('/images');
+         
+
+        // $storage = Storage::disk('s3');
+        // $client = $storage->getAdapter()->getClient();
+      
+        // $result = $client->listObjectsV2([
+        //     'Bucket'  => $storage->getAdapter()->getBucket(),
+        //     'Prefix'  => 'images/',
+        // ]);       
+     
+ 
+      
+        // $images = $result['Contents'] ?  $result['Contents'] : [];
+ 
+        $array = [];
         foreach ($images as $key => $img) {
-            $array[$key] =[
-                'name' => $img ,
+        //    $img = $img['Key'];
+            $array[$key] = [
+                'name' => substr($img, strlen('images/')),
                 'url' =>  $this->fileUrl($img),
+                'path' =>   $img,
+
             ];
         }
 
@@ -31,20 +48,21 @@ class ImageController extends Controller
 
     public function postUpload(Request $request)
     {
+        dd($request->all());
         $request->merge([
             'size' => $request->file->getSize(),
             'name' => $request->file->getClientOriginalName(),
         ]);
-        
 
-        if(! $this->fileCheck($request->file)){
-            $path = Storage::disk('s3')->putFileAs('/', $request->file, $request->name, 'public');
+
+        if (!$this->fileCheck($request->file,true)) {
+            $path = Storage::disk('s3')->putFileAs('/images', $request->file, $request->name, 'public');
             return back()->with('success', 'Image Successfully Saved');
         }
 
         return back()->with('error', 'Image exists before');
     }
-  
+
     public function find()
     {
         return view('find');
@@ -60,7 +78,7 @@ class ImageController extends Controller
         }
 
         try {
-            $file_url = $field;
+            $file_url = "images/" . $field;
             $file_name  = $field; //"VoteMix-Event-Entry-Ticket.pdf";
 
             $mime = $this->getMime($file_url);
@@ -78,9 +96,9 @@ class ImageController extends Controller
 
             return \Response::make(Storage::disk('s3')->get($file_url), 200, $response);
         } catch (Exception $e) {
-            return back()->with('error', $e->getMessage());
+            // return back()->with('error', $e->getMessage());
 
-            // return $this->respondInternalError($e->getMessage(), 'object', 500);
+            return $this->respondInternalError($e->getMessage(), 'object', 500);
         }
         // return back()->with('success', 'Image Successfully Saved');
     }
@@ -100,12 +118,10 @@ class ImageController extends Controller
         if (!$this->fileCheck($field)) {
             return back()->with('error', 'Image Can\'t be found');
         }
-        
-        Storage::disk('s3')->delete($field);
+
+        Storage::disk('s3')->delete("images/".$field);
 
 
         return back()->with('success', 'Image Deleted Successfully ');
     }
-
-     
 }

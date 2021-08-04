@@ -23,7 +23,7 @@
                             <tr>                             
                             <td>{{$key}}</td>
 
-                            <td><img width="100px" src="{{$image['url']}}"></td>
+                            <td><img width="100px" src="{{asset($image['path'])}}"></td>
                              <td>{{$image['name']}}</td>
                              <td>
                                  <form action="{{ route('deleteFile') }}" enctype="multipart/form-data" method="post">
