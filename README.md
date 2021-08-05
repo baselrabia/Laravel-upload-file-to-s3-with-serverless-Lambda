@@ -1,62 +1,74 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel-upload-file-to-s3-with-serverless-Lambda-
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+a program that provides an HTTP API to store and retrieve files. It has the following features:</br></br>
+- Upload a new file 
+- Retrieve an uploaded file by name.</br>
+- Delete an uploaded file by name.</br>
+- The code can be deployed to the lambda function in AWS </br>
+- uploaded files stored in the S3 bucket.</br>
+- Use the Amazon API Gateway for the APIs.</br>
+- multiple files have similar contents, reuse the contents.
 
-## About Laravel
+## Setting up
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Requirements
+- [PHP >= 7.4](http://php.net/)
+- [Composer](https://getcomposer.org/)
+- [Xampp](https://www.apachefriends.org/)
+- [Git](https://git-scm.com/)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+### Clone GitHub repo for this project locally
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+`git clone https://github.com/baselrabia/Laravel-upload-file-to-s3-with-serverless-Lambda.git`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- `cd Laravel-upload-file-to-s3-with-serverless-Lambda`
+- `composer install`
+- `cp .env.example .env`
+- `php artisan key:generate`
 
-## Laravel Sponsors
+- last step edit this two fields in your `.env` file the values with your own 
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```php
+AWS_ACCESS_KEY_ID=***********************************************
+AWS_SECRET_ACCESS_KEY=***********************************************
+```
 
-### Premium Partners
+## starting the application 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+now everthing is almost done just one step more to start your App
+-  Run this command line forserveing the App to your localhost ->  `php artisan serve` 
 
-## Contributing
+or you can serve it from the deployed lambda on this link => 
+https://go3qi1sam9.execute-api.us-east-2.amazonaws.com/
+##
+# About the tasks
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Uploade File 
 
-## Code of Conduct
+at the first when enter in the app will find a form for uploading file to the aws s3 </br>
+by submitting the file , its exists in our files now , if you try to uploade it agian will find an error appears said your file exists before 
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### List s3 files 
 
-## Security Vulnerabilities
+there are another tab called images it should list the files in the aws s3
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### find & download file 
 
-## License
+in the nav bar you will find the find & download tab will redirect you to a search form you write the name of the file you wanna search about 
+if it's exists the app will download the file for you , if not will see an error msg that file is not exists 
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### delete file
+
+in the nav bar you will find the Delete tab will redirect you to a Delete form you write the name of the file you wanna Delete
+if it's exists the app will Delete the file for you , if not will see an error msg that file is not exists 
+
+
+# Edition on Lambda deploy 
+you can change the code as you want it to behave and when you wanna deploy it,</br>
+just use this commands and it will handle it   </br> 
+- `npm install -g serverless` </br> 
+- `serverless deploy`</br>
+
+
